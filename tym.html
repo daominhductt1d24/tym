@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gửi em... ❤️</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #ffd1dc 0%, #ffb6c1 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Floating Hearts Background */
+        .hearts-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 500px;
+            perspective: 1000px;
+        }
+
+        /* Base Card Style */
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .card.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .card.hidden-up {
+            opacity: 0;
+            transform: translate(-50%, -150%) scale(0.8);
+        }
+
+        .card.hidden-down {
+            opacity: 0;
+            transform: translate(-50%, 50%) scale(0.8);
+        }
+
+        /* Typography */
+        h1, h2 {
+            font-family: 'Dancing Script', cursive;
+            color: #ff4757;
+            margin-bottom: 20px;
+        }
+
+        h1 { font-size: 3.5rem; }
+        h2 { font-size: 2.8rem; }
+        
+        p {
+            font-size: 1.1rem;
+            color: #57606f;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        /* Images */
+        .card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        /* Buttons */
+        .btn {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.3);
+        }
+
+        .btn:hover {
+            background: #ff6b81;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #747d8c;
+            border: 2px solid #ced6e0;
+            box-shadow: none;
+        }
+
+        .btn-outline:hover {
+            background: #f1f2f6;
+            color: #2f3542;
+        }
+
+        /* Confession Buttons Container */
+        .action-btns {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            position: relative;
+            height: 50px;
+        }
+
+        #btnNo {
+            position: absolute;
+            right: 10%; /* Starting position */
+            transition: all 0.3s ease;
+        }
+
+        #btnYes {
+            position: absolute;
+            left: 10%;
+            z-index: 2;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="hearts-bg" id="heartsBg"></div>
+
+    <div class="container">
+        
+        <div id="step1" class="card active">
+            <div style="font-size: 5rem; margin-bottom: 10px; cursor: pointer;" onclick="nextStep(1)">💌</div>
+            <h2>Gửi đến em...</h2>
+            <p>Anh có một món quà nhỏ dành cho em nhân ngày đặc biệt này.</p>
+            <button class="btn" onclick="nextStep(1)">Mở Thiệp Nhé</button>
+        </div>
+
+        <div id="step2" class="card hidden-down">
+            <img src="https://images.unsplash.com/photo-1513201099705-a9746e1e201f?q=80&w=600&auto=format&fit=crop" alt="Birthday" class="card-img">
+            <h2>Chúc Mừng Sinh Nhật! 🎂</h2>
+            <p>
+                Chúc em tuổi mới luôn đong đầy niềm vui, bình yên và giữ mãi nụ cười rạng rỡ. Mong rằng mọi điều ngọt ngào nhất sẽ luôn đồng hành cùng em trên chặng đường phía trước. Lời chúc thì cũng đã gửi gắm xong rồi...
+            </p>
+            <button class="btn" onclick="nextStep(2)">Nhưng mà... khoan đã 👇</button>
+        </div>
+
+        <div id="step3" class="card hidden-down">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTFpU8hrciU8GrkCyPKrsQ0SnNPRORqera8Q&s" alt="Love" class="card-img">
+            <h1>Làm người anh yêu nhé? ❤️</h1>
+            <p style="font-weight: 600; color: #2f3542;">
+                Anh không muốn chúc mừng sinh nhật em với tư cách là một người bình thường nữa. 
+                Cho anh cơ hội được che chở và quan tâm em mỗi ngày nhé?
+            </p>
+            
+            <div class="action-btns">
+                <button id="btnYes" class="btn" onclick="sayYes()">Em đồng ý! 🥰</button>
+                <button id="btnNo" class="btn btn-outline" onmouseover="moveButton()">Để em suy nghĩ... 🙄</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Hàm chuyển cảnh
+        function nextStep(currentStep) {
+            const currentCard = document.getElementById(`step${currentStep}`);
+            const nextCard = document.getElementById(`step${currentStep + 1}`);
+
+            currentCard.classList.remove('active');
+            currentCard.classList.add('hidden-up');
+
+            nextCard.classList.remove('hidden-down');
+            setTimeout(() => {
+                nextCard.classList.add('active');
+            }, 100); // Đợi 1 xíu để hiệu ứng mượt hơn
+        }
+
+        // Tuyệt chiêu: Nút NO chạy trốn
+        const btnNo = document.getElementById('btnNo');
+        
+        function moveButton() {
+            // Lấy kích thước của khung chứa để nút không bay ra ngoài
+            const card = document.getElementById('step3');
+            const cardRect = card.getBoundingClientRect();
+            
+            // Tính toán vị trí ngẫu nhiên
+            const maxX = cardRect.width - btnNo.offsetWidth - 40;
+            const maxY = 150; // Giới hạn độ cao bay nhảy
+            
+            const randomX = Math.floor(Math.random() * maxX) - (maxX / 2);
+            const randomY = Math.floor(Math.random() * maxY) - 50;
+
+            btnNo.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        }
+
+        // Hỗ trợ cảm ứng trên điện thoại cho nút NO
+        btnNo.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Ngăn click
+            moveButton();
+        });
+
+        // Xử lý khi nàng đồng ý
+        function sayYes() {
+            // Đổi text
+            document.querySelector('#step3 h1').innerHTML = "Anh biết mà! Yêu emmm ❤️";
+            document.querySelector('#step3 p').innerHTML = "Chuẩn bị lên đồ đi hẹn hò với anh thôi nào!";
+            
+            // Ẩn nút
+            document.querySelector('.action-btns').style.display = 'none';
+
+            // Bắn pháo hoa (dùng thư viện canvas-confetti)
+            var duration = 3 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                var particleCount = 50 * (timeLeft / duration);
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        }
+
+        function randomInRange(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+    </script>
+</body>
+</html>
